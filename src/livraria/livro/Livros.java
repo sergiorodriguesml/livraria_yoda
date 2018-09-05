@@ -1,6 +1,9 @@
 package livraria.livro;
 
 import java.util.HashMap;
+
+import javax.sound.midi.Synthesizer;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,19 +13,18 @@ import java.io.ObjectInputStream;
 
 public class Livros{
 
-	private HashMap<Integer, Livro> livros;
 	private FileInputStream fileIn;
 	private ObjectInputStream in;
 	private FileOutputStream fileOut;
 	private ObjectOutputStream out;
 	
 	public HashMap<Integer, Livro> loadLivros(){
-		HashMap<Integer, Livro> livros_ = new HashMap<>();
+		HashMap<Integer, Livro> livros = new HashMap<>();
 		try {
 			
 			fileIn = new FileInputStream("livros.ser");
 			in = new ObjectInputStream(fileIn);
-			livros_ = (HashMap<Integer, Livro>) in.readObject();
+			livros = (HashMap<Integer, Livro>) in.readObject();
 			in.close();
 			fileIn.close();
 		} catch (FileNotFoundException e) {
@@ -35,25 +37,19 @@ public class Livros{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(livros_.isEmpty()){
-			System.out.println("retornou nullo");
+		if(livros.isEmpty()){
 			return null;
 		}
 		else{
-			System.out.println("retornou livros");
-			return livros_;
+			return livros;
 		}
 	}
 	
-	public void addLivro(Livro livro){
-		this.livros = loadLivros();
-		if(!livros.containsKey(livro.getID())){
-			this.livros.put(livro.getID(), livro);
-		}		
+	public void saveLivros(HashMap<Integer, Livro> livros){
 		try {
 			fileOut = new FileOutputStream("livros.ser");
 			out = new ObjectOutputStream(fileOut);
-			out.writeObject(this.livros);
+			out.writeObject(livros);
 			out.close();
 			fileOut.close();
 			System.out.println(":::: Adicionado com Sucesso ::::");
@@ -63,7 +59,25 @@ public class Livros{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}		
+	}
+	
+	public Boolean addLivro(Livro livro){
+		HashMap<Integer, Livro> livros = loadLivros();
+		if(livros == null){
+			HashMap<Integer, Livro> livros2 = new HashMap<>();
+			livros2.put(livro.getID(), livro);
+			saveLivros(livros2);
+			return true;
 		}
+		else{
+			if(!livros.containsKey(livro.getID())){
+				livros.put(livro.getID(), livro);
+				saveLivros(livros);
+				return true;
+			}		
+		}
+		return false;		
 	}
 	/*public void rmLivro(int id){
 		this.livros = loadLivros();
@@ -84,33 +98,39 @@ public class Livros{
 		}
 	}*/
 	
-	public void getLivros(){
-		/*try {
-			
-			fileIn = new FileInputStream("livros.ser");
-			in = new ObjectInputStream(fileIn);
-			livros = (HashMap<Integer, Livro>) in.readObject();
-			in.close();
-			fileIn.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		this.livros = loadLivros();
-	}
+//	public void getLivros(){
+//		this.livros = loadLivros();
+//	}
 
-	@Override
-	public String toString() {
-		return "Livros [livros=" + livros + "]";
+	public Boolean venderLivro(int id,int qtd){
+		HashMap<Integer, Livro> livros = loadLivros();
+		int quantidade = livros.get(id).getQuantidade() ;		
+		if(quantidade > qtd){
+			livros.get(id).setQuantidade(quantidade-qtd);
+			saveLivros(livros);
+			return true;
+		}else if(quantidade - qtd == 0){
+			livros.remove(id);
+			saveLivros(livros);
+			return true;
+		}
+		else{
+			return false;
+		}
+		
 	}
 	
-	
-	
-	
+	public void printLivros(){
+		HashMap<Integer, Livro> livros = loadLivros();
+		if(livros == null){
+			System.out.println("::::: Não há livros cadastrados :::::");
+		}
+		else{
+			for (Integer id : livros.keySet()) {
+				Livro livro = livros.get(id);
+				System.out.println(livro.toString());
+			}
+		}
+	}
+		
 }

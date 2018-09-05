@@ -60,8 +60,8 @@ public class Livro implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "Livro [Id=" + Id + ", nome=" + nome + ", valor=" + valor + ", quantidade=" + quantidade + ", categoria="
-				+ categoria + "]\n";
+		return "Id = " + Id + ", nome = " + nome + ", valor = " + valor + ", quantidade = " + quantidade + ", categoria = "
+				+ categoria + "\n";
 	}
 
 	
