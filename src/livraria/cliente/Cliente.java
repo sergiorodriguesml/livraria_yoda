@@ -31,8 +31,7 @@ public class Cliente {
 	}
 	@Override
 	public String toString() {
-		return "Cliente [cpf=" + cpf + ", nome=" + nome + ", dtNascimento=" + dtNascimento + ", endereco=" + endereco
-				+ "]";
+		return "cpf = " + cpf + ", nome = " + nome + ", data de nascimento = " + dtNascimento + ", endereco = " + endereco+"\n";
 	}
 	
 	

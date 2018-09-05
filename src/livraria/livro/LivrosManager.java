@@ -11,7 +11,7 @@ import java.io.ObjectOutputStream;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 
-public class Livros{
+public class LivrosManager{
 
 	private FileInputStream fileIn;
 	private ObjectInputStream in;
@@ -28,13 +28,10 @@ public class Livros{
 			in.close();
 			fileIn.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			//e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if(livros.isEmpty()){
@@ -52,12 +49,9 @@ public class Livros{
 			out.writeObject(livros);
 			out.close();
 			fileOut.close();
-			System.out.println(":::: Adicionado com Sucesso ::::");
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
 	}
@@ -79,28 +73,6 @@ public class Livros{
 		}
 		return false;		
 	}
-	/*public void rmLivro(int id){
-		this.livros = loadLivros();
-		this.livros.remove(id);
-		try {
-			fileOut = new FileOutputStream("livros.ser");
-			out = new ObjectOutputStream(fileOut);
-			out.writeObject(this.livros);
-			out.close();
-			fileOut.close();
-			System.out.println(":::: Removido com Sucesso ::::");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}*/
-	
-//	public void getLivros(){
-//		this.livros = loadLivros();
-//	}
 
 	public Boolean venderLivro(int id,int qtd){
 		HashMap<Integer, Livro> livros = loadLivros();
