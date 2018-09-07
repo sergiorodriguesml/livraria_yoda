@@ -98,10 +98,12 @@ public class LivrosManager{
 			System.out.println("::::: Não há livros cadastrados :::::");
 		}
 		else{
+			System.out.println("::::: Livros Cadastrados :::::");
 			for (Integer id : livros.keySet()) {
 				Livro livro = livros.get(id);
 				System.out.println(livro.toString());
 			}
+			System.out.println("::::::::::::::::::::::::::::::");
 		}
 	}
 		

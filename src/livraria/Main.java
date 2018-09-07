@@ -38,9 +38,9 @@ public class Main {
 		opcao = sc.nextInt();
 		switch (opcao) {
 		case 1:
-			System.out.println("::::: Livros Cadastrados :::::");
+			
 			livrosM.printLivros();
-			System.out.println("::::::::::::::::::::::::::::::");
+			
 			main(args);
 			break;
 		case 2:
@@ -108,7 +108,6 @@ public class Main {
 			cliente.setCpf(sc.nextLine());
 			while(!clienteM.addCliente(cliente)){
 				System.out.println("CPF inválido, digite outro CPF: ");
-				sc.nextLine();
 				cliente.setCpf(sc.nextLine());
 			}
 			System.out.println(cliente.toString()+"\n");
@@ -116,15 +115,22 @@ public class Main {
 			main(args);
 			break;
 		case 5:
-//			String c = ",wwwww,, ";
-//			String cs [] = c.split(",");
-//			System.out.println("tamanho = "+cs.length);
-//			System.out.println(cs[0]+"#"+cs[1]+"#"+cs[2]+"#"+cs[3]);
+			System.out.println("Digite o CPF: ");
+			sc.nextLine();
+			String cpf = sc.nextLine();
+			Boolean b = true;
+			while(!clienteM.rmCliente(cpf) && b){
+				System.out.println("CPF inválido, digite outro cpf ou '0' para sair");
+				cpf = sc.nextLine();
+				System.out.println("cpf - "+cpf);
+				if(cpf.equals("0")){
+					b = false;
+				}
+			}
+			main(args);
 			break;
 		case 6:
-			System.out.println("\n::::: Clientes Cadastrados :::::");
 			clienteM.printClientes();
-			System.out.println("::::::::::::::::::::::::::::::\n");
 			main(args);
 			break;
 		default:
